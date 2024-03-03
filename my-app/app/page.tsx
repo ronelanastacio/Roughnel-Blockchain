@@ -155,15 +155,15 @@ export default function Home() {
     }
   };
 
-  const importToken = () => {
+  const importToken = async () => {
     const tokenAddress = '0x2850B5283a6505b02d0446115Ff4f66A3663F7ac';
     const tokenSymbol = 'RAJ';
     const tokenDecimals = 18;
 
     const { ethereum } = window as any;
 
-    ethereum
-      .request({
+    try {
+      const success = await ethereum.request({
         method: 'wallet_watchAsset',
         params: {
           type: 'ERC20',
@@ -173,7 +173,18 @@ export default function Home() {
             decimals: tokenDecimals,
           },
         },
-      })
+      });
+
+      if (success) {
+        console.log(`${tokenSymbol} token added to Metamask`);
+        alert(`Token ${tokenSymbol} has been imported successfully!`);
+      } else {
+        console.error(`Failed to add ${tokenSymbol} token to Metamask`);
+      }
+    } catch (error) {
+      console.error('Error adding token to Metamask:', error);
+      // Handle error or show an error message to the user
+    }
   };
 
   useEffect(() => {
