@@ -11,6 +11,7 @@ const WalletInfo = ({ walletKey,  balance}) => {
       {walletKey ? (
         <>
           <p className="text-xl mt-2">Connected Address: {walletKey}</p>
+          <p className="text-green-500 mt-2">Balance: {balance} Tokens</p>
         </>
       ) : (
         <p className="text-red-500 mt-2">Not Connected</p>
