@@ -174,16 +174,6 @@ export default function Home() {
           },
         },
       })
-      .then((success) => {
-        if (success) {
-          console.log(`${tokenSymbol} token added to Metamask`);
-        } else {
-          console.error(`Failed to add ${tokenSymbol} token to Metamask`);
-        }
-      })
-      .catch((error) => {
-        console.error('Error adding token to Metamask:', error);
-      });
   };
 
   useEffect(() => {
