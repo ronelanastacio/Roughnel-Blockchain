@@ -4,22 +4,6 @@ import { BrowserProvider } from "ethers";
 import { getContract } from "../config";
 import Image from "next/image";
 
-const WalletInfo = ({ walletKey,  balance}) => {
-  return (
-    <div className="bg-gray-300 p-2 rounded-lg shadow-lg flex flex-col items-center justify-center mb-2">
-      <h2 className="text-xl font-semibold mb-2 text-center">Connected Wallet</h2>
-      {walletKey ? (
-        <>
-          <p className="text-xl mt-2">Connected Address: {walletKey}</p>
-          <p className="text-green-500 mt-2">Balance: {balance} Tokens</p>
-        </>
-      ) : (
-        <p className="text-red-500 mt-2">Not Connected</p>
-      )}
-    </div>
-  );
-};
-
 export default function Home() {
   const [walletKey, setWalletKey] = useState("");
   const [mintingAmount, setMintingAmount] = useState<number>(0);
@@ -183,10 +167,6 @@ export default function Home() {
       </div>
 
       <div className="w-full mx-auto mb-4">
-        <WalletInfo walletKey={walletKey} balance={balance} />
-      </div>
-
-      <div className="w-full mx-auto mb-4">
         <div className="bg-gray-300 p-2 rounded-lg shadow-lg flex flex-col items-center justify-center mb-2">
           <h2 className="text-xl font-semibold mb-2 text-center">Connect Wallet</h2>
           <button
@@ -198,67 +178,66 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="flex mb-4 w-full">
-        <div className="w-full md:w-1/2 pr-2">
-          <div className="bg-gray-300 p-2 rounded-lg shadow-lg flex flex-col items-center justify-center mb-2">
-            <h2 className="text-xl font-semibold mb-2 text-center">Minting</h2>
-            <input
-              type="range"
-              min="0"
-              max="100"
-              step="1"
-              value={mintingAmount}
-              onChange={mintAmountChange}
-              className="w-full"
-            />
-            <p className="text-xl mt-2">Amount: {mintingAmount}</p>
-            <button
-              onClick={mintCoin}
-              className="bg-purple-500 text-white font-bold py-1 px-2 rounded focus:outline-none hover:bg-green-700 focus:ring-2 focus:ring-green-500 mt-1"
-            >
-              Mint Tokens
-            </button>
-            {mintSubmitted && (
-              <p className="text-green-500 mt-2">
-                Minting successful! Total Minted: {mintedAmount}
-              </p>
-            )}
-          </div>
-        </div>
-        <div className="w-full md:w-1/2 pl-2">
-          <div className="bg-gray-300 p-2 rounded-lg shadow-lg flex flex-col items-center justify-center mb-2">
-            <h2 className="text-xl font-semibold mb-2 text-center">Staking</h2>
-            <input
-              type="range"
-              min="0"
-              max="100"
-              step="1"
-              value={stakingAmount}
-              onChange={stakeAmountChange}
-              className="w-full"
-            />
-            <p className="text-xl mt-2">Amount: {stakingAmount}</p>
-            <button
-              onClick={stakeCoin}
-              className="bg-indigo-500 text-white font-bold py-1 px-2 rounded focus:outline-none hover:bg-orange-700 focus:ring-2 focus:ring-orange-500 mt-1"
-            >
-              Stake Tokens
-            </button>
-            {stakeSubmitted && (
-              <p className="text-orange-500 mt-2">
-                Staking successful! Total Staked: {stakedAmount}
-              </p>
-            )}
-          </div>
+      <div className="w-full mx-auto mb-4">
+        <div className="bg-gray-300 p-2 rounded-lg shadow-lg flex flex-col items-center justify-center mb-2">
+          <h2 className="text-xl font-semibold mb-2 text-center">Minting</h2>
+          <input
+            type="range"
+            min="0"
+            max="100"
+            step="1"
+            value={mintingAmount}
+            onChange={mintAmountChange}
+            className="w-full"
+          />
+          <p className="text-xl mt-2">Amount: {mintingAmount}</p>
+          <button
+            onClick={mintCoin}
+            className="bg-purple-500 text-white font-bold py-1 px-2 rounded focus:outline-none hover:bg-green-700 focus:ring-2 focus:ring-green-500 mt-2"
+          >
+            Mint
+          </button>
+          {mintSubmitted && (
+            <p className="text-green-500 mt-2">
+              Minting successful! Total Minted: {mintedAmount}
+            </p>
+          )}
         </div>
       </div>
 
-      <div className="w-full text-center">
+      <div className="w-full mx-auto mb-4">
+        <div className="bg-gray-300 p-2 rounded-lg shadow-lg flex flex-col items-center justify-center mb-2">
+          <h2 className="text-xl font-semibold mb-2 text-center">Staking</h2>
+          <input
+            type="range"
+            min="0"
+            max="100"
+            step="1"
+            value={stakingAmount}
+            onChange={stakeAmountChange}
+            className="w-full"
+          />
+          <p className="text-xl mt-2">Amount: {stakingAmount}</p>
+          <button
+            onClick={stakeCoin}
+            className="bg-indigo-500 text-white font-bold py-1 px-2 rounded focus:outline-none hover:bg-orange-700 focus:ring-2 focus:ring-orange-500 mt-2"
+          >
+            Stake
+          </button>
+          {stakeSubmitted && (
+            <p className="text-orange-500 mt-2">
+              Staking successful! Total Staked: {stakedAmount}
+            </p>
+          )}
+        </div>
+      </div>
+
+      <div className="w-full mx-auto text-center">
         <button
           onClick={withdrawCoin}
-          className="bg-red-500 text-white font-bold py-1 px-2 rounded focus:outline-none hover:bg-red-700 focus:ring-2 focus:ring-red-500 mt-1"
+          className="bg-red-500 text-white font-bold py-1 px-2 rounded focus:outline-none hover:bg-red-700 focus:ring-2 focus:ring-red-500 mt-2"
         >
-          Withdraw Tokens
+          Withdraw
         </button>
         {withdrawSubmitted && (
           <p className="text-red-500 mt-2">
@@ -267,7 +246,7 @@ export default function Home() {
         )}
       </div>
 
-      <div className="mt-4 text-white bg-blue-500 p-2 rounded-lg">
+      <div className="mt-4 text-white bg-blue-500 p-1 rounded-lg">
         <p>Created by: Ronel B. Anastacio Jr.</p>
       </div>
     </main>
