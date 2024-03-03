@@ -17,6 +17,7 @@ export default function Home() {
   const [mintSubmitted, setMintSubmitted] = useState(false);
   const [stakeSubmitted, setStakeSubmitted] = useState(false);
   const [withdrawSubmitted, setWithdrawSubmitted] = useState(false);
+  const [connectedWallet, setConnectedWallet] = useState<string | null>(null);
 
   const mintCoin = async () => {
     if (mintingAmount <= 0) {
@@ -121,7 +122,7 @@ export default function Home() {
       const accounts = await ethereum.request({
         method: "eth_requestAccounts",
       });
-      setWalletKey(accounts[0]);
+      setConnectedWallet(accounts[0]); // 
 
       await ethereum.request({
         method: "wallet_switchEthereumChain",
@@ -154,6 +155,37 @@ export default function Home() {
     }
   };
 
+  const importToken = () => {
+    const tokenAddress = '0x2850B5283a6505b02d0446115Ff4f66A3663F7ac';
+    const tokenSymbol = 'RAJ';
+    const tokenDecimals = 18;
+
+    const { ethereum } = window as any;
+
+    ethereum
+      .request({
+        method: 'wallet_watchAsset',
+        params: {
+          type: 'ERC20',
+          options: {
+            address: tokenAddress,
+            symbol: tokenSymbol,
+            decimals: tokenDecimals,
+          },
+        },
+      })
+      .then((success) => {
+        if (success) {
+          console.log(`${tokenSymbol} token added to Metamask`);
+        } else {
+          console.error(`Failed to add ${tokenSymbol} token to Metamask`);
+        }
+      })
+      .catch((error) => {
+        console.error('Error adding token to Metamask:', error);
+      });
+  };
+
   useEffect(() => {
     if (walletKey) {
       checkBalance();
@@ -166,7 +198,7 @@ export default function Home() {
         <h1 className="text-4xl font-bold text-black">Roughnel Minting</h1>
       </div>
 
-      <div className="w-full mx-auto mb-4">
+      <div className="w-full mx-auto mb-4 flex justify-between">
         <div className="bg-gray-300 p-2 rounded-lg shadow-lg flex flex-col items-center justify-center mb-2">
           <h2 className="text-xl font-semibold mb-2 text-center">Connect Wallet</h2>
           <button
@@ -176,7 +208,23 @@ export default function Home() {
             Connect
           </button>
         </div>
+
+        <div className="bg-gray-300 p-2 rounded-lg shadow-lg flex flex-col items-center justify-center mb-2">
+          <h2 className="text-xl font-semibold mb-2 text-center">Import Token</h2>
+          <button
+            onClick={importToken}
+            className="bg-yellow-500 text-white font-bold py-1 px-2 rounded focus:outline-none hover:bg-yellow-700 focus:ring-2 focus:ring-yellow-500 mt-1"
+          >
+            Import Token
+          </button>
+        </div>
       </div>
+
+      {connectedWallet && (
+        <p className="mt-4 text-white bg-blue-500 p-1 rounded-lg">
+          Connected to wallet: {connectedWallet}
+        </p>
+      )}
 
       <div className="w-full mx-auto mb-4">
         <div className="bg-gray-300 p-2 rounded-lg shadow-lg flex flex-col items-center justify-center mb-2">
