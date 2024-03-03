@@ -30,11 +30,11 @@ export default function Home() {
     const contract = getContract(signer);
 
     try {
-      const tx = await contract.mint(signer, Math.floor(mintingAmount)); // Use Math.floor() to ensure the amount is an integer
+      const tx = await contract.mint(signer, Math.floor(mintingAmount));
       await tx.wait();
       setMintSubmitted(true);
       checkBalance();
-      setMintedAmount(mintedAmount + mintingAmount); // Update minted amount
+      setMintedAmount(mintedAmount + mintingAmount);
     } catch (e: any) {
       const decodedError = contract.interface.parseError(e.data);
       alert(`Minting failed: ${decodedError?.args}`);
@@ -57,11 +57,11 @@ export default function Home() {
     const contract = getContract(signer);
 
     try {
-      const tx = await contract.stake(Math.floor(stakingAmount)); // Use Math.floor() to ensure the amount is an integer
+      const tx = await contract.stake(Math.floor(stakingAmount));
       await tx.wait();
       setStakeSubmitted(true);
       checkBalance();
-      setStakedAmount(stakedAmount + stakingAmount); // Update staked amount
+      setStakedAmount(stakedAmount + stakingAmount);
     } catch (e: any) {
       const decodedError = contract.interface.parseError(e.data);
       alert(`Staking failed: ${decodedError?.args}`);
@@ -88,7 +88,7 @@ export default function Home() {
       await tx.wait();
       setWithdrawSubmitted(true);
       checkBalance();
-      setWithdrawnAmount(withdrawnAmount + withdrawAmount); // Update withdrawn amount
+      setWithdrawnAmount(withdrawnAmount + withdrawAmount);
     } catch (e: any) {
       const decodedError = contract.interface.parseError(e.data);
       alert(`Withdrawal failed: ${decodedError?.args}`);
@@ -162,25 +162,23 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-8 bg-gray-100" style={{ backgroundImage: "url('https://img.freepik.com/free-vector/gradient-zoom-effect-background_23-2149717745.jpg?w=740&t=st=1709367679~exp=1709368279~hmac=76eb6d373df75ffb2df08ff8659ed5807b40df6c0faa10c553adfc410c684885')", backgroundPosition: "center" }}>
-      <div className="max-w-max bg-gray-300 rounded-lg text-center p-4">
-        <h1 className="text-3xl font-bold text-black"> Roughnel Minting </h1>
+      <div className="max-w-max bg-gray-300 rounded-lg text-center p-4 mb-8">
+        <h1 className="text-4xl font-bold text-black">Roughnel Minting</h1>
       </div>
 
-      <div className="mt-4 flex flex-col items-center">
+      <div className="flex flex-col items-center mb-8">
         <button
-          onClick={() => {
-            connectWallet();
-          }}
+          onClick={connectWallet}
           className="bg-blue-500 text-white font-bold py-2 px-6 rounded focus:outline-none hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 mt-4"
         >
           Connect Wallet
         </button>
       </div>
 
-      <div className="flex mb-8">
-        <div className="w-1/2 pr-1">
+      <div className="flex mb-8 w-full">
+        <div className="w-1/2 pr-4">
           <div className="bg-gray-300 p-8 rounded-lg shadow-lg flex flex-col items-center justify-center mb-4">
-            <h2 className="text-xl font-semibold mb-4 text-center">Minting</h2>
+            <h2 className="text-2xl font-semibold mb-4 text-center">Minting</h2>
             <input
               type="range"
               min="0"
@@ -188,23 +186,25 @@ export default function Home() {
               step="1"
               value={mintingAmount}
               onChange={(e) => setMintingAmount(Number(e.target.value))}
-              style={{ width: "80%" }}
+              className="w-full"
             />
             <p className="text-xl mt-4">Amount: {mintingAmount}</p>
             <button
-              onClick={() => {
-                mintCoin();
-              }}
-              className="bg-green-500 text-white font-bold py-3 px-8 rounded focus:outline-none hover:bg-green-700 focus:ring-2 focus:ring-green-500 text-xl"
+              onClick={mintCoin}
+              className="bg-green-500 text-white font-bold py-3 px-8 rounded focus:outline-none hover:bg-green-700 focus:ring-2 focus:ring-green-500 text-xl mt-4"
             >
               Mint Tokens
             </button>
-            {mintSubmitted && <p className="text-green-500 mt-2">Minting successful! Total Minted: {mintedAmount}</p>}
+            {mintSubmitted && (
+              <p className="text-green-500 mt-2">
+                Minting successful! Total Minted: {mintedAmount}
+              </p>
+            )}
           </div>
         </div>
-        <div className="w-1/2 pl-1">
+        <div className="w-1/2 pl-4">
           <div className="bg-gray-300 p-8 rounded-lg shadow-lg flex flex-col items-center justify-center mb-4">
-            <h2 className="text-xl font-semibold mb-4 text-center"> Staking </h2>
+            <h2 className="text-2xl font-semibold mb-4 text-center">Staking</h2>
             <input
               type="range"
               min="0"
@@ -212,32 +212,36 @@ export default function Home() {
               step="1"
               value={stakingAmount}
               onChange={(e) => setStakingAmount(Number(e.target.value))}
-              style={{ width: "80%" }}
+              className="w-full"
             />
             <p className="text-xl mt-4">Amount: {stakingAmount}</p>
             <button
-              onClick={() => {
-                stakeCoin();
-              }}
-              className="bg-orange-500 text-white font-bold py-3 px-8 rounded focus:outline-none hover:bg-orange-700 focus:ring-2 focus:ring-orange-500 text-xl"
+              onClick={stakeCoin}
+              className="bg-orange-500 text-white font-bold py-3 px-8 rounded focus:outline-none hover:bg-orange-700 focus:ring-2 focus:ring-orange-500 text-xl mt-4"
             >
               Stake Tokens
             </button>
-            {stakeSubmitted && <p className="text-orange-500 mt-2">Staking successful! Total Staked: {stakedAmount}</p>}
+            {stakeSubmitted && (
+              <p className="text-orange-500 mt-2">
+                Staking successful! Total Staked: {stakedAmount}
+              </p>
+            )}
           </div>
         </div>
       </div>
 
-      <div>
+      <div className="w-full text-center">
         <button
-          onClick={() => {
-            withdrawCoin();
-          }}
-          className="bg-red-500 text-white font-bold py-3 px-8 rounded focus:outline-none hover:bg-red-700 focus:ring-2 focus:ring-red-500 mt-8 text-xl"
+          onClick={withdrawCoin}
+          className="bg-red-500 text-white font-bold py-3 px-8 rounded focus:outline-none hover:bg-red-700 focus:ring-2 focus:ring-red-500 text-xl"
         >
           Withdraw Tokens
         </button>
-        {withdrawSubmitted && <p className="text-red-500 mt-2">Withdrawal successful! Total Withdrawn: {withdrawnAmount}</p>}
+        {withdrawSubmitted && (
+          <p className="text-red-500 mt-2">
+            Withdrawal successful! Total Withdrawn: {withdrawnAmount}
+          </p>
+        )}
       </div>
     </main>
   );
