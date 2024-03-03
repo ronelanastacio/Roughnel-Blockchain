@@ -4,6 +4,21 @@ import { BrowserProvider } from "ethers";
 import { getContract } from "../config";
 import Image from "next/image";
 
+const WalletInfo = ({ walletKey,  balance}) => {
+  return (
+    <div className="bg-gray-300 p-2 rounded-lg shadow-lg flex flex-col items-center justify-center mb-2">
+      <h2 className="text-xl font-semibold mb-2 text-center">Connected Wallet</h2>
+      {walletKey ? (
+        <>
+          <p className="text-xl mt-2">Connected Address: {walletKey}</p>
+        </>
+      ) : (
+        <p className="text-red-500 mt-2">Not Connected</p>
+      )}
+    </div>
+  );
+};
+
 export default function Home() {
   const [walletKey, setWalletKey] = useState("");
   const [mintingAmount, setMintingAmount] = useState<number>(0);
@@ -166,32 +181,39 @@ export default function Home() {
         <h1 className="text-4xl font-bold text-black">Roughnel Minting</h1>
       </div>
 
-      <div className="flex flex-col items-center mb-8">
-        <button
-          onClick={connectWallet}
-          className="bg-blue-500 text-white font-bold py-2 px-6 rounded focus:outline-none hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 mt-4"
-        >
-          Connect Wallet
-        </button>
+      <div className="w-full mx-auto mb-4">
+        <WalletInfo walletKey={walletKey} balance={balance} />
       </div>
 
-      <div className="flex mb-8 w-full">
-        <div className="w-1/2 pr-4">
-          <div className="bg-gray-300 p-8 rounded-lg shadow-lg flex flex-col items-center justify-center mb-4">
-            <h2 className="text-2xl font-semibold mb-4 text-center">Minting</h2>
+      <div className="w-full mx-auto mb-4">
+        <div className="bg-gray-300 p-2 rounded-lg shadow-lg flex flex-col items-center justify-center mb-2">
+          <h2 className="text-xl font-semibold mb-2 text-center">Connect Wallet</h2>
+          <button
+            onClick={connectWallet}
+            className="bg-blue-500 text-white font-bold py-1 px-2 rounded focus:outline-none hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 mt-1"
+          >
+            Connect
+          </button>
+        </div>
+      </div>
+
+      <div className="flex mb-4 w-full">
+        <div className="w-full md:w-1/2 pr-2">
+          <div className="bg-gray-300 p-2 rounded-lg shadow-lg flex flex-col items-center justify-center mb-2">
+            <h2 className="text-xl font-semibold mb-2 text-center">Minting</h2>
             <input
               type="range"
               min="0"
               max="100"
               step="1"
               value={mintingAmount}
-              onChange={(e) => setMintingAmount(Number(e.target.value))}
+              onChange={mintAmountChange}
               className="w-full"
             />
-            <p className="text-xl mt-4">Amount: {mintingAmount}</p>
+            <p className="text-xl mt-2">Amount: {mintingAmount}</p>
             <button
               onClick={mintCoin}
-              className="bg-green-500 text-white font-bold py-3 px-8 rounded focus:outline-none hover:bg-green-700 focus:ring-2 focus:ring-green-500 text-xl mt-4"
+              className="bg-purple-500 text-white font-bold py-1 px-2 rounded focus:outline-none hover:bg-green-700 focus:ring-2 focus:ring-green-500 mt-1"
             >
               Mint Tokens
             </button>
@@ -202,22 +224,22 @@ export default function Home() {
             )}
           </div>
         </div>
-        <div className="w-1/2 pl-4">
-          <div className="bg-gray-300 p-8 rounded-lg shadow-lg flex flex-col items-center justify-center mb-4">
-            <h2 className="text-2xl font-semibold mb-4 text-center">Staking</h2>
+        <div className="w-full md:w-1/2 pl-2">
+          <div className="bg-gray-300 p-2 rounded-lg shadow-lg flex flex-col items-center justify-center mb-2">
+            <h2 className="text-xl font-semibold mb-2 text-center">Staking</h2>
             <input
               type="range"
               min="0"
               max="100"
               step="1"
               value={stakingAmount}
-              onChange={(e) => setStakingAmount(Number(e.target.value))}
+              onChange={stakeAmountChange}
               className="w-full"
             />
-            <p className="text-xl mt-4">Amount: {stakingAmount}</p>
+            <p className="text-xl mt-2">Amount: {stakingAmount}</p>
             <button
               onClick={stakeCoin}
-              className="bg-orange-500 text-white font-bold py-3 px-8 rounded focus:outline-none hover:bg-orange-700 focus:ring-2 focus:ring-orange-500 text-xl mt-4"
+              className="bg-indigo-500 text-white font-bold py-1 px-2 rounded focus:outline-none hover:bg-orange-700 focus:ring-2 focus:ring-orange-500 mt-1"
             >
               Stake Tokens
             </button>
@@ -233,7 +255,7 @@ export default function Home() {
       <div className="w-full text-center">
         <button
           onClick={withdrawCoin}
-          className="bg-red-500 text-white font-bold py-3 px-8 rounded focus:outline-none hover:bg-red-700 focus:ring-2 focus:ring-red-500 text-xl"
+          className="bg-red-500 text-white font-bold py-1 px-2 rounded focus:outline-none hover:bg-red-700 focus:ring-2 focus:ring-red-500 mt-1"
         >
           Withdraw Tokens
         </button>
@@ -242,6 +264,10 @@ export default function Home() {
             Withdrawal successful! Total Withdrawn: {withdrawnAmount}
           </p>
         )}
+      </div>
+
+      <div className="mt-4 text-white bg-blue-500 p-2 rounded-lg">
+        <p>Created by: Ronel B. Anastacio Jr.</p>
       </div>
     </main>
   );
